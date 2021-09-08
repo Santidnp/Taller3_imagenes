@@ -4,7 +4,13 @@ import numpy as np
 
 class Cambiotamano:
 
+
     def __init__(self,path):
+
+        """
+        Se inicializa la clase con el path de la imagen y se lee
+        :param path:
+        """
 
         self.path = path
         self.imagen = cv2.imread(path)
@@ -14,6 +20,15 @@ class Cambiotamano:
 
 
     def Diezmado(self,D,img=None):
+
+        """
+        Se crea el metodo de diezmado
+
+        Permite usarlo en una imagen precargada o en una nueva
+
+        imprime en pantalla una imagen diezmada D veces
+
+        """
 
         self.D = D
         if img is None:
@@ -45,6 +60,16 @@ class Cambiotamano:
 
 
     def interpolacion(self,I,img=None):
+
+        """
+
+        Se crea el metodo de interpolacion
+
+        Permite usarlo en una imagen precargada o en una nueva
+
+        imprime en pantalla una imagen Interpolada I veces
+
+        """
 
         self.I = I
 
@@ -91,7 +116,9 @@ class Cambiotamano:
         cv2.waitKey(0)
 
     def descomposicion(self, N,image=None):
-
+        """
+        Descompone una Imagen a traves de convoluciones N veces
+        """
         self.N = N
         if image is None:
             image = self.imagen
@@ -135,6 +162,12 @@ class Cambiotamano:
         return IL
 
     def infoGris(self,img):
+
+        """
+        Metodo para pasar a grises cualquier imagen junto con las variables que se requieren
+        :param img:
+        :return:
+        """
         imgris = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         num_rows, num_cols = (imgris.shape[0], imgris.shape[1])
         enum_rows = np.linspace(0, num_rows - 1, num_rows)
