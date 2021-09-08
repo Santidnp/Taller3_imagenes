@@ -53,6 +53,17 @@ class Cambiotamano:
             imgris, half_size, high_pass_mask, col_iter, row_iter,num_rows, num_cols  = self.infoGris(self.imagen)
             print(imgris)
 
+        elif len(img.shape) == 2:
+
+            imgris = img
+            num_rows, num_cols = (imgris.shape[0], imgris.shape[1])
+            enum_rows = np.linspace(0, num_rows - 1, num_rows)
+            enum_cols = np.linspace(0, num_cols - 1, num_cols)
+            col_iter, row_iter = np.meshgrid(enum_cols, enum_rows)
+            half_size = num_rows / 2
+            high_pass_mask = np.zeros_like(imgris)
+
+
         else:
             imgris, half_size, high_pass_mask, col_iter, row_iter,num_rows, num_cols  = self.infoGris(img)
 
@@ -90,32 +101,38 @@ class Cambiotamano:
         image_gray3 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image_gray4 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+        kernelH = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+        kernelV = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
+        kernelD = np.array([[2, -1, -2], [-1, 4, -1], [-2, -1, 2]])
+        kernelL = np.array([[1 / 16, 1 / 8, 1 / 16], [1 / 8, 1 / 4, 1 / 8], [1 / 16, 1 / 8, 1 / 16]])
+
         for i in range(N):
-            kernelH = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-            kernelV = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-            kernelD = np.array([[2, -1, -2], [-1, 4, -1], [-2, -1, 2]])
-            kernelL = np.array([[1 / 16, 1 / 8, 1 / 16], [1 / 8, 1 / 4, 1 / 8], [1 / 16, 1 / 8, 1 / 16]])
+
 
             image_convolvedH = cv2.filter2D(image_gray1, -1, kernelH)
             image_convolvedV = cv2.filter2D(image_gray2, -1, kernelV)
             image_convolvedD = cv2.filter2D(image_gray3, -1, kernelD)
             image_convolvedL = cv2.filter2D(image_gray4, -1, kernelL)
 
-            image_gray1 = image_convolvedH
-            image_gray2 = image_convolvedV
-            image_gray3 = image_convolvedD
-            image_gray4 = image_convolvedL
+
 
             IH = image_convolvedH[::2, ::2]
             IV = image_convolvedV[::2, ::2]
             ID = image_convolvedD[::2, ::2]
             IL = image_convolvedL[::2, ::2]
 
+            image_gray1 = IH
+            image_gray2 = IV
+            image_gray3 = ID
+            image_gray4 = IL
+
             imagenes_juntas = np.hstack((IH,IV,ID,IL))
 
             cv2.imshow("uu",imagenes_juntas)
 
             cv2.waitKey(0)
+
+        return IL
 
     def infoGris(self,img):
         imgris = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -132,8 +149,8 @@ class Cambiotamano:
 
 
 
-imagen = Cambiotamano(r'C:\Users\sngh9\OneDrive\Escritorio\Maestria_Semestre_2\Procesamiento_de_imagenes\Taller_3\lena.png')
+#imagen = Cambiotamano(r'C:\Users\sngh9\OneDrive\Escritorio\Maestria_Semestre_2\Procesamiento_de_imagenes\Taller_3\lena.png')
 #imagen2 = cv2.imread(r'C:\Users\sngh9\OneDrive\Escritorio\Maestria_Semestre_2\Procesamiento_de_imagenes\Taller_3\lena.png')
-imagen.Diezmado(3)
-imagen.interpolacion(5)
-imagen.descomposicion(3)
+#imagen.Diezmado(3)
+#imagen.interpolacion(5)
+#imagen.descomposicion(3)
