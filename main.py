@@ -1,6 +1,8 @@
 from ClaseDiezInter import *
 import sys
-
+"""
+Autores: Laura Juliana Ramos, Santiago Nicolás García Herrera
+"""
 """
 python  main.py path_to_image
 """

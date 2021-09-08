@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
-
-
+"""
+Autores: Laura Juliana Ramos, Santiago Nicolás García Herrera
+"""
 class Cambiotamano:
 
 
